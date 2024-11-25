@@ -26,10 +26,9 @@ Route::middleware('auth')->group(function () {
 // Rutas del usuario
 Route::middleware(['auth'])->group(function () {
     Route::get('/user-dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user-sessions', [UserController::class, 'listSessions'])->name('user.sessions');
     Route::post('/worksession/start', [WorkSessionController::class, 'start'])->name('worksession.start');
     Route::patch('/worksession/{session}/end', [WorkSessionController::class, 'end'])->name('worksession.end');
-    Route::get('/user-sessions', [UserController::class, 'listSessions'])->name('user.sessions');
-
 });
 
 

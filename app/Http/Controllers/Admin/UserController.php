@@ -74,7 +74,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'dni' => 'required|regex:/^[0-9]{7,8}[A-Za-z]$/|unique:users,dni,' . $user->id,
+            'dni' => 'required|regex:/^[0-9]{7}[A-Z]$/|unique:users,dni,' . $user->id,
             'role' => 'required|string|in:admin,user',
         ]);
 

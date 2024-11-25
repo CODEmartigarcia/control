@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\Models\WorkSession;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 // use App\Models\User;
 class WorkSessionController extends Controller
 {
@@ -22,17 +23,43 @@ class WorkSessionController extends Controller
 
     public function end(WorkSession $session)
     {
-        // Validar que el usuario autenticado sea el propietario de la sesión
         if ($session->user_id !== Auth::id()) {
-            abort(403, 'No tienes permiso para finalizar esta jornada.');
+            abort(403, 'No tienes permisos para finalizar esta jornada.');
         }
 
-        // Finalizar la jornada
+        $startTime = $session->start_time;
+        $endTime = now();
+
+        if (!$startTime || !$endTime) {
+            return redirect()->back()->withErrors('Error: tiempos inválidos para la sesión.');
+        }
+
+        // Calcula la duración y actualiza
+        $duration = $endTime->diffInSeconds($startTime);
+
         $session->update([
-            'end_time' => now(),
-            'total_duration' => now()->diff($session->start_time),
+            'end_time' => $endTime,
+            'total_duration' => $duration,
         ]);
 
         return redirect()->back()->with('status', 'Jornada finalizada.');
     }
+
+
+
+
+
+
+
+
+    // private function calculateDuration($start, $end)
+    // {
+    //     // Carbon Objects
+    //     $startTime = \Carbon\Carbon::parse($start);
+    //     $endTime = \Carbon\Carbon::parse($end);
+
+    //     // Diferencia en minutos.
+    //     return $endTime->diffInMinutes($startTime);
+    // }
+
 }

@@ -24,9 +24,14 @@
     <tbody>
         @foreach ($sessions as $session)
             <tr>
-                <td>{{ $session->start_time }}</td>
-                <td>{{ $session->end_time ?? 'En curso' }}</td>
-                <td>{{ $session->total_duration ?? 'N/A' }}</td>
+                <!-- <td>{{ $session->start_time }}</td>
+                    <td>{{ $session->end_time ?? 'En curso' }}</td>
+                    <td>{{ gmdate('H:i:s', $session->total_duration) }}</td> -->
+                <td>{{ $session->start_time->format('Y-m-d H:i:s') }}</td>
+                <td>{{ $session->end_time ? $session->end_time->format('Y-m-d H:i:s') : 'En curso' }}</td>
+                <td>
+                    {{ gmdate('H:i:s', $session->total_duration) }}
+                </td>
             </tr>
         @endforeach
     </tbody>
