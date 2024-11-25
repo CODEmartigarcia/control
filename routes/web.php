@@ -20,10 +20,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
-
-// Rutas del usuario
 Route::middleware(['auth'])->group(function () {
     Route::get('/user-dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user-sessions', [UserController::class, 'listSessions'])->name('user.sessions');
@@ -31,15 +27,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/worksession/{session}/end', [WorkSessionController::class, 'end'])->name('worksession.end');
 });
 
-
-// Rutas del administrador
 Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
-
+    Route::patch('/admin/worksession/update', [AdminController::class, 'updateWorkSession'])->name('admin.worksession.update');
 });
-
-
-
 
 require __DIR__ . '/auth.php';

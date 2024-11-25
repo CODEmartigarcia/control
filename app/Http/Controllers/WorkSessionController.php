@@ -22,28 +22,29 @@ class WorkSessionController extends Controller
     }
 
     public function end(WorkSession $session)
-    {
-        if ($session->user_id !== Auth::id()) {
-            abort(403, 'No tienes permisos para finalizar esta jornada.');
-        }
-
-        $startTime = $session->start_time;
-        $endTime = now();
-
-        if (!$startTime || !$endTime) {
-            return redirect()->back()->withErrors('Error: tiempos inválidos para la sesión.');
-        }
-
-        // Calcula la duración y actualiza
-        $duration = $endTime->diffInSeconds($startTime);
-
-        $session->update([
-            'end_time' => $endTime,
-            'total_duration' => $duration,
-        ]);
-
-        return redirect()->back()->with('status', 'Jornada finalizada.');
+{
+    if ($session->user_id !== Auth::id()) {
+        abort(403, 'No tienes permisos para finalizar esta jornada.');
     }
+
+    // Calcula la duración correcta en segundos
+    $startTime = Carbon::parse($session->start_time);
+    $endTime = now();
+
+    $durationInSeconds = $startTime->diffInSeconds($endTime);
+
+    $session->update([
+        'end_time' => $endTime,
+        'total_duration' => $durationInSeconds,
+    ]);
+
+    return redirect()->back()->with('status', 'Jornada finalizada.');
+}
+
+
+
+
+
 
 
 

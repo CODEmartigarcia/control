@@ -42,23 +42,23 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'dni' => 'required|regex:/^[0-9]{7,8}[A-Za-z]$/|unique:users,dni',
+            'dni' => 'required|regex:/^[0-9]{7,8}[A-Za-z]?$/|unique:users,dni',
             'role' => 'required|string|in:admin,user',
             'password' => 'required|digits:4|confirmed',
         ]);
 
-        $adminId = Auth::id();
-        if (!$adminId) {
-            return redirect()->route('users.index')->with('error', 'No estás autenticado como administrador.');
-        }
+        // Calcular automáticamente la letra del DNI si no se proporciona
+        $dniWithoutLetter = substr($request->input('dni'), 0, 8);
+        $calculatedLetter = self::calculateDNILetter($dniWithoutLetter);
+        $validatedDni = $dniWithoutLetter . $calculatedLetter;
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'dni' => $request->dni,
+            'dni' => $validatedDni,
             'role' => $request->role,
             'password' => Hash::make($request->password),
-            'admin_id' => $adminId,
+            'admin_id' => Auth::id(),
         ]);
 
         return redirect()->route('users.index')->with('status', 'Usuario creado con éxito.');
@@ -89,6 +89,12 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
     }
+    public static function calculateDNILetter($dni)
+    {
+        $letters = "TRWAGMYFPDXBNJZSQVHLCKE";
+        return $letters[$dni % 23];
+    }
+
 
 
 }
