@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkSessionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,15 +20,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas del administrador
-Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->group(function () {
-    Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-});
+
 
 
 // Rutas del usuario
 Route::middleware(['auth'])->group(function () {
     Route::get('/user-dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::post('/worksession/start', [WorkSessionController::class, 'start'])->name('worksession.start');
+    Route::patch('/worksession/{session}/end', [WorkSessionController::class, 'end'])->name('worksession.end');
+    Route::get('/user-sessions', [UserController::class, 'listSessions'])->name('user.sessions');
+
 });
+
+
+// Rutas del administrador
+Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->group(function () {
+    Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+
+});
+
+
+
 
 require __DIR__ . '/auth.php';

@@ -22,7 +22,8 @@
         <div class="mt-4">
             <x-input-label for="dni" :value="__('DNI')" />
 
-            <x-text-input id="dni" class="block mt-1 w-full" type="text" name="dni" required maxlength="10" />
+            <x-text-input id="dni" class="block mt-1 w-full" type="text" name="dni" required
+                pattern="[0-9]{7,8}[A-Za-z]" maxlength="9" />
 
             <x-input-error :messages="$errors->get('dni')" class="mt-2" />
         </div>

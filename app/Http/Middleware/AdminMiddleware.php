@@ -14,7 +14,7 @@ class AdminMiddleware
         if (!$request->user() || $request->user()->role !== 'admin') {
             abort(403, 'No tienes permisos para acceder a esta página.');
         }
-
         return $next($request);
+        // return redirect('/');
     }
 }

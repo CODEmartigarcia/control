@@ -22,6 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'dni',
+        'role',
+        'admin_id',
     ];
 
     /**
@@ -45,5 +47,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    // REL·LACIÓ EN WORK SESSIONS
+    public function workSessions()
+    {
+        return $this->hasMany(WorkSession::class, 'user_id');
+    }
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'admin_id');
     }
 }
