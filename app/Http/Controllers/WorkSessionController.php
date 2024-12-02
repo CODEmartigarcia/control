@@ -12,7 +12,13 @@ class WorkSessionController extends Controller
     {
         $user = Auth::user();
 
-        // Iniciar una nueva jornada para el usuario
+        // Comprobar si ya hay una jornada activa
+        $activeSession = WorkSession::where('user_id', $user->id)->whereNull('end_time')->first();
+        if ($activeSession) {
+            return redirect()->back()->withErrors(['error' => 'Ya tienes una jornada activa.']);
+        }
+
+        // Crear nueva jornada
         WorkSession::create([
             'user_id' => $user->id,
             'start_time' => now(),
@@ -22,24 +28,24 @@ class WorkSessionController extends Controller
     }
 
     public function end(WorkSession $session)
-{
-    if ($session->user_id !== Auth::id()) {
-        abort(403, 'No tienes permisos para finalizar esta jornada.');
+    {
+        if ($session->user_id !== Auth::id()) {
+            abort(403, 'No tienes permisos para finalizar esta jornada.');
+        }
+
+        // Calcula la duración correcta en segundos
+        $startTime = Carbon::parse($session->start_time);
+        $endTime = now();
+
+        $durationInSeconds = $startTime->diffInSeconds($endTime);
+
+        $session->update([
+            'end_time' => $endTime,
+            'total_duration' => $durationInSeconds,
+        ]);
+
+        return redirect()->back()->with('status', 'Jornada finalizada.');
     }
-
-    // Calcula la duración correcta en segundos
-    $startTime = Carbon::parse($session->start_time);
-    $endTime = now();
-
-    $durationInSeconds = $startTime->diffInSeconds($endTime);
-
-    $session->update([
-        'end_time' => $endTime,
-        'total_duration' => $durationInSeconds,
-    ]);
-
-    return redirect()->back()->with('status', 'Jornada finalizada.');
-}
 
 
 
