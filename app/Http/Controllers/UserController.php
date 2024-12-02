@@ -7,10 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
+    // public function dashboard()
+    // {
+    //     $currentSession = WorkSession::where('user_id', Auth::id())->whereNull('end_time')->first();
+    //     $sessions = WorkSession::where('user_id', Auth::id())->get(); // Obtén todas las sesiones del usuario
+    //     return view('user.dashboard', compact('currentSession', 'sessions'));
+    // }
     public function dashboard()
     {
-        $currentSession = WorkSession::where('user_id', Auth::id())->whereNull('end_time')->first();
-        $sessions = WorkSession::where('user_id', Auth::id())->get(); // Obtén todas las sesiones del usuario
+        $currentSession = WorkSession::where('user_id', Auth::id())
+            ->whereNull('end_time')
+            ->first();
+
+        $sessions = WorkSession::where('user_id', Auth::id())
+            ->whereDate('start_time', now()->toDateString()) // Solo jornadas de hoy
+            ->orderBy('start_time', 'desc')
+            ->get();
+
         return view('user.dashboard', compact('currentSession', 'sessions'));
     }
     public function listSessions()
