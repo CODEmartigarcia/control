@@ -13,6 +13,15 @@ class UserController extends Controller
         $sessions = WorkSession::where('user_id', Auth::id())->get(); // Obtén todas las sesiones del usuario
         return view('user.dashboard', compact('currentSession', 'sessions'));
     }
+    public function listSessions()
+    {
+        $sessions = WorkSession::where('user_id', Auth::id())
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return view('user.sessions', compact('sessions'));
+    }
+
 
 
 }
