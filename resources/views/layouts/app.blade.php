@@ -11,21 +11,12 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <!-- Header -->
-    <header>
-        @include('partials.header')
-    </header>
+    @include('partials.header')
 
     <!-- Contenido principal -->
     <div class="container mx-auto mt-6">
         @yield('content')
     </div>
-    <script>
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            const menu = document.getElementById('menu');
-            menu.classList.toggle('hidden');
-        });
-
-    </script>
 </body>
 
 </html>
