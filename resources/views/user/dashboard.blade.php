@@ -3,7 +3,9 @@
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-4">Panel del Usuario</h1>
-
+    <h1 class="text-2xl font-bold">
+        Hola, {{ Auth::user()->name }}!
+    </h1>
     @if ($currentSession)
         <div class="bg-blue-100 text-blue-800 p-4 rounded mb-4">
             <p>Jornada activa iniciada a las: <span class="font-semibold">{{ $currentSession->start_time }}</span></p>
