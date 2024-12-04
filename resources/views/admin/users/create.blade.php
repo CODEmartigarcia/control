@@ -7,7 +7,7 @@
     <p class="text-success">{{ session('status') }}</p>
 @endif
 
-<form action="{{ route('users.store') }}" method="POST">
+<form action="{{ route('admin.users.store') }}" method="POST">
     @csrf
     <div>
         <label for="name">Nombre</label>

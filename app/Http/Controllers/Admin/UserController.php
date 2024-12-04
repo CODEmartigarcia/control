@@ -61,7 +61,7 @@ class UserController extends Controller
             'admin_id' => Auth::id(),
         ]);
 
-        return redirect()->route('users.index')->with('status', 'Usuario creado con éxito.');
+        return redirect()->route('admin.users.index')->with('status', 'Usuario creado con éxito.');
     }
 
     public function edit(User $user)
@@ -80,14 +80,14 @@ class UserController extends Controller
 
         $user->update($request->only('name', 'email', 'dni', 'role'));
 
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
     }
     public static function calculateDNILetter($dni)
     {

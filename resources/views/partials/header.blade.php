@@ -24,11 +24,11 @@
                     class="flex flex-col items-center text-gray-500 hover:text-gray-800 transition-colors {{ request()->routeIs('admin.dashboard') ? 'text-gray-800 font-bold' : '' }}">
                     <span>Dashboard Admin</span>
                 </a>
-                <a href="{{ route('users.index') }}"
+                <a href="{{ route('admin.users.index') }}"
                     class="flex flex-col items-center text-gray-500 hover:text-gray-800 transition-colors {{ request()->routeIs('users.index') ? 'text-gray-800 font-bold' : '' }}">
                     <span>Gestionar Usuarios</span>
                 </a>
-                <a href="{{ route('users.create') }}"
+                <a href="{{ route('admin.users.create') }}"
                     class="flex flex-col items-center text-gray-500 hover:text-gray-800 transition-colors {{ request()->routeIs('users.create') ? 'text-gray-800 font-bold' : '' }}">
                     <span>Crear Usuarios</span>
                 </a>

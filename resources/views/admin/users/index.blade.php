@@ -1,7 +1,7 @@
 <h1>Usuarios</h1>
 
 <!-- Filtro de búsqueda -->
-<form method="GET" action="{{ route('users.index') }}">
+<form method="GET" action="{{ route('admin.users.index') }}">
     <input type="text" name="search" placeholder="Buscar usuarios" value="{{ request('search') }}">
     <button type="submit">Buscar</button>
 </form>
@@ -24,8 +24,8 @@
                 <td>{{ $user->role }}</td>
                 <td>
                     <!-- CRUD Actions -->
-                    <a href="{{ route('users.edit', $user) }}">Editar</a>
-                    <form method="POST" action="{{ route('users.destroy', $user) }}" style="display:inline;">
+                    <a href="{{ route('admin.users.edit', $user) }}">Editar</a>
+                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit">Eliminar</button>

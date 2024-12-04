@@ -29,7 +29,7 @@
 
 <div>
     <h2>Gestión de Usuarios</h2>
-    <a href="{{ route('users.index') }}">Ir a Gestión de Usuarios</a>
+    <a href="{{ route('admin.users.index') }}">Ir a Gestión de Usuarios</a>
 </div>
 
 <div>
